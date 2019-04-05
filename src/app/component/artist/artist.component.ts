@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 import { AngularFireList, AngularFireObject, AngularFireDatabase } from '@angular/fire/database';
 import { Artistmodel } from 'src/app/model/artistdata';
@@ -35,5 +35,9 @@ export class ArtistComponent implements OnInit {
   getById(id: string) {
     this.db.GetUser(`${id}`).snapshotChanges().subscribe(result =>
       result.payload.ref.on('value', snapshot => console.log(snapshot.val())));
+  }
+
+  delete(id: string) {
+    this.db.DeleteUser(id);
   }
 }
