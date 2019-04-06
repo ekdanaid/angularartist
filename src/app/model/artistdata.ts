@@ -1,4 +1,4 @@
 export interface Artistmodel {
-    name: string;
-    genre: string;
+  name: any;
+  genre: any;
 }

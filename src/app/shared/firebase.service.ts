@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Artistmodel } from '../model/artistdata';
-import { AngularFireList, AngularFireObject, AngularFireDatabase } from '@angular/fire/database';
+import {
+  AngularFireList,
+  AngularFireObject,
+  AngularFireDatabase
+} from '@angular/fire/database';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +14,13 @@ export class FirebaseService {
   artistsRef: AngularFireList<any>;
   artistRef: AngularFireObject<any>;
 
-  constructor(
-    private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase) {}
 
   AddUser(data: Artistmodel) {
-    this.artistsRef.push({
-      name: data.name,
-      genre: data.genre
-    });
+    this.db.database
+      .ref('artist')
+      .push()
+      .set({ name: data.name.value, genre: data.genre.value });
   }
   GetUser(id: string) {
     this.artistRef = this.db.object(`artist/${id}`);
