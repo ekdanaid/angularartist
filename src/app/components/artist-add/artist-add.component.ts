@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 import { Artistmodel } from 'src/app/model/artistdata';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-artist-add',
   templateUrl: './artist-add.component.html',
@@ -27,7 +28,8 @@ export class ArtistAddComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private firebase: FirebaseService
+    private firebase: FirebaseService,
+    private router: Router
   ) {
     this.createForm();
   }

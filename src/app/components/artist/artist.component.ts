@@ -1,43 +1,48 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FirebaseService } from 'src/app/shared/firebase.service';
-import { AngularFireList, AngularFireObject, AngularFireDatabase } from '@angular/fire/database';
 import { Artistmodel } from 'src/app/model/artistdata';
-
-class Resmodel {
-  constructor(
-    public name: string = '',
-    public genre: string = ''
-  ) { }
-}
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-artist',
   templateUrl: './artist.component.html',
-  styleUrls: ['./artist.component.sass']
+  styleUrls: ['./artist.component.scss']
 })
 export class ArtistComponent implements OnInit {
   resmodels: any[] = [];
+  keyarrs: any[] = [];
 
-  constructor(
-    private db: FirebaseService
-  ) {
-  }
-  ngOnInit() {
+  constructor(private db: FirebaseService, private router: Router) {
     this.getAll();
   }
+  ngOnInit() {}
 
   getAll() {
-    this.db.GetUserList().snapshotChanges().subscribe(results =>
-      results.forEach(result => result.payload.ref.on('value', snapshot =>
-        this.resmodels.push(snapshot.val()))));
+    this.db
+      .GetUserList()
+      .snapshotChanges()
+      .subscribe(results => {
+        results.forEach(result =>
+          result.payload.ref.once('value', snapshot => {
+            this.keyarrs.push(snapshot.key);
+            this.resmodels.push(snapshot.val());
+          })
+        );
+      });
+    console.log(this.keyarrs);
+    console.log(this.resmodels);
   }
 
-  getById(id: string) {
-    this.db.GetUser(`${id}`).snapshotChanges().subscribe(result =>
-      result.payload.ref.on('value', snapshot => console.log(snapshot.val())));
+  onEdit(i: any) {
+    this.router.navigate(['artist-edit', `${this.keyarrs[i]}`]);
   }
 
-  delete(id: string) {
-    this.db.DeleteUser(id);
+  onDelete(i: any) {
+    this.db.DeleteUser(this.keyarrs[i]);
+    this.resmodels = this.resmodels.slice(i);
+    this.keyarrs = this.keyarrs.slice(i);
+    this.resmodels = [];
+    this.keyarrs = [];
   }
 }

@@ -8,15 +8,24 @@
       <th class="col-1"></th>
     </tr>
   </thead>
-  <tr *ngFor="let resmodel of resmodels; let i = index">
-    <td>{{ resmodel.name }}</td>
-    <td>{{ resmodel.genre }}</td>
+  <tr
+    *ngFor="let resmodel of resmodels; let i = index; let keyarr; of: keyarrs"
+  >
     <td>
-      <button type="button" class="btn btn-info">Edit</button>
+      {{ resmodel.name }}
     </td>
     <td>
-      <button type="button" class="btn btn-danger">Delete</button>
+      {{ resmodel.genre }}
+    </td>
+    <td>
+      <button type="button" class="btn btn-info" (click)="onEdit(i)">
+        Edit
+      </button>
+    </td>
+    <td>
+      <button type="button" class="btn btn-danger" (click)="onDelete(i)">
+        Delete
+      </button>
     </td>
   </tr>
-  </tbody>
 </table>

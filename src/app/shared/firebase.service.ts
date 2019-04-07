@@ -6,7 +6,8 @@ import {
   AngularFireDatabase
 } from '@angular/fire/database';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +15,7 @@ export class FirebaseService {
   artistsRef: AngularFireList<any>;
   artistRef: AngularFireObject<any>;
 
-  constructor(private db: AngularFireDatabase) {}
+  constructor(private db: AngularFireDatabase, private http: HttpClient) {}
 
   AddUser(data: Artistmodel) {
     this.db.database
@@ -23,26 +24,27 @@ export class FirebaseService {
       .set({ name: data.name.value, genre: data.genre.value });
   }
   GetUser(id: string) {
-    this.artistRef = this.db.object(`artist/${id}`);
-    return this.artistRef;
+    return this.db.object('artist/' + id);
   }
 
   GetUserList() {
-    this.artistsRef = this.db.list('artist');
-    return this.artistsRef;
+    return this.db.list('artist');
   }
 
   // Update User
-  UpdateUser(data: Artistmodel) {
-    this.artistRef.update({
-      name: data.name,
-      genre: data.genre
-    });
+  UpdateUser(data: any, id: string) {
+    return this.db.object('artist/' + id).update(data);
   }
 
   // Delete User
   DeleteUser(id: string) {
-    this.artistRef = this.db.object(`artist/${id}`);
-    this.artistRef.remove();
+    this.db.database
+      .ref(`artist`)
+      .child(id)
+      .remove();
+  }
+
+  DeletebyHttp(id: string): Observable<any> {
+    return this.http.delete(`http://localhost:3000/artist/delete/${id}`);
   }
 }

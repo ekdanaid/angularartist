@@ -1,0 +1,46 @@
+<div class="modal-header bg-color">
+  <h3 class="modal-title">Edit</h3>
+</div>
+<div class="container-fluid">
+  <form class="col-12" [formGroup]="formEditArtist">
+    <div class="d-flex justify-content-center ">
+      <div class="form-group col-md-8">
+        <div class="container">
+          <label class="col-form-label ">Name : </label>
+          <input
+            class="form-control col-md-12 col-sm-12"
+            type="text"
+            formControlName="name"
+          />
+          <div
+            class="form-control-feedback"
+            *ngIf="name.errors && (name.dirty || name.touched)"
+          >
+            <p *ngIf="name.errors.required">Name is required</p>
+          </div>
+          <label class="col-form-label">Genre : </label>
+          <input
+            class="form-control col-md-12 col-sm-12"
+            type="text"
+            formControlName="genre"
+          />
+          <div
+            class="form-control-feedback"
+            *ngIf="genre.errors && (genre.dirty || genre.touched)"
+          >
+            <p *ngIf="genre.errors.required">Genre is required</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="d-flex justify-content-center">
+    <input
+      type="button"
+      class="btn btn-success col-md-3 col-sm-12"
+      type="submit"
+      value="Edit"
+      (click)="onClick()"
+    />
+  </div>
+</div>

@@ -14,13 +14,16 @@ import { Router } from '@angular/router';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { HttpClientModule } from '@angular/common/http';
+import { ArtistEditComponent } from './components/artist-edit/artist-edit.component';
 @NgModule({
   declarations: [
     AppComponent,
     ArtistComponent,
     ArtistAddComponent,
     NavBarComponent,
-    HomePageComponent
+    HomePageComponent,
+    ArtistEditComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     AngularFireDatabaseModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
